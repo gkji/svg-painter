@@ -1,12 +1,13 @@
 import {PointModel} from './Point';
-import {SvgRoundProps, SvgBaseProps} from '../const/index';
+import {SvgBaseProps} from '../const/index';
 import {BaseModel} from './BaseModel';
-import {log} from '../common/utils';
 import { GraphType } from '../const/enum';
+import { SvgRound } from '../components'
 
 
 export class RoundModel extends BaseModel {
     private type = GraphType.round
+    private component = SvgRound;
     private cx: number
     private cy: number
     private r: number
@@ -37,6 +38,7 @@ export class RoundModel extends BaseModel {
         const { props: { stroke, fill, strokeWidth } } = super.toData();
         return {
             type: this.type,
+            component: this.component,
             props: {
                 cx,
                 cy,

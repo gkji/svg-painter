@@ -40,5 +40,6 @@ export interface SvgPathProps extends SvgBaseProps {
 
 export interface ModelData {
     type: GraphType,
+    component: any,
     props: SvgBaseProps,
 }

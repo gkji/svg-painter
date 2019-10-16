@@ -1,15 +1,13 @@
-import { BaseModel } from './BaseModel';
 import { GraphType } from '../const';
-import {LineModel, RectModel, PointModel, RoundModel, PathModel} from '.';
-
+import {LineModel, RectModel, PointModel, RoundModel, PathModel, BaseModel} from './index';
+import { ModelData } from '../const/interface';
 
 interface GraphItem {
     type: GraphType;
-    // component: 
-
-
-
+    component: any,
+    data: any,
 }
+
 export class ModelList {
     private list: BaseModel[]= [];
 
@@ -39,7 +37,7 @@ export class ModelList {
           g = RoundModel.new(x,y );
         } else if (type === GraphType.path) {
             g = PathModel.new(x,y );
-          }
+        }
         if (g) {
             this.add(g);
         }
@@ -47,7 +45,7 @@ export class ModelList {
 
     endGraph = (type: GraphType, x: number, y: number) => {
         if (type === GraphType.line) {
-            const g = this.currentGraph() as LineModel;
+            const g = this.currentGraph();
             g.update(undefined, new PointModel(x, y));
         } else if (type === GraphType.rect) {
             const g = this.currentGraph() as RectModel;
@@ -64,7 +62,7 @@ export class ModelList {
         }
     }
 
-    toData () {
+    toData (): ModelData[] {
         return this.list.map( g => g.toData())
     }
 }

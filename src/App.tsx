@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-import { LineModel, PointModel, RectModel, ModelList, BaseModel } from './model'
+import { ModelList } from './model'
 import { SvgLine, SvgRect, SvgRound, SvgPath } from './components'
-import {GraphType, Drawing, SvgRoundProps, SvgPathProps} from './const';
+import {GraphType, Drawing, MapOf} from './const';
 
 
 import './App.scss';
-import { SvgLineProps, SvgBaseProps, SvgRectProps, ModelData } from './const/interface';
+import { ModelData } from './const/interface';
+
+
+const GraphComponent: MapOf<any> = {
+  [GraphType.line]: SvgLine,
+  [GraphType.rect]: SvgRect,
+  [GraphType.round]: SvgRound,
+  [GraphType.path]: SvgPath,
+}
 
 const modelList = new ModelList;
 
@@ -14,24 +22,9 @@ function App() {
   const [graphList, setGraphList] = useState<ModelData[]>(modelList.toData());
   const [graphType, setGraphType] = useState<GraphType>(GraphType.round);
 
-  const handleDrawLine = () => {
+  const handleDraw = (type: GraphType) => {
     setDrawing(Drawing.start);
-    setGraphType(GraphType.line)
-  }
-
-  const handleDrawRect = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.rect)
-  }
-
-  const handleDrawRound = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.round)
-  }
-
-  const handleDrawPath = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.path)
+    setGraphType(type)
   }
 
   const handleMouseDownCanvas = (e: React.MouseEvent) => {
@@ -68,23 +61,21 @@ function App() {
   }
 
   const renderGraph = (graph: ModelData, index: number) => {
-    if (graph.type === GraphType.line) {
-      return <SvgLine key={index} lineData={graph.props as SvgLineProps}/>
-    } else if (graph.type === GraphType.rect) {
-      return <SvgRect key={index} rectData={graph.props as SvgRectProps}/>
-    } else if (graph.type === GraphType.round) {
-      return <SvgRound key={index} roundData={graph.props as SvgRoundProps}/>
-    } else if (graph.type === GraphType.path) {
-      return <SvgPath key={index} data={graph.props as SvgPathProps}/>
-    }
+    return <React.Fragment key={index}>
+        {
+          React.createElement(graph.component, {
+          key: index, 
+          data: graph.props
+      })}
+      </React.Fragment>
   }
   return (
     <div className="App">
         <div className="header">
-        <button className="draw-line-btn" onClick={handleDrawLine}>线</button>
-        <button className="draw-rect-btn" onClick={handleDrawRect}>长方形</button>
-        <button className="draw-round-btn" onClick={handleDrawRound}>圆形</button>
-        <button className="draw-path-btn" onClick={handleDrawPath}>路径</button>
+        <button className="draw-line-btn" onClick={() => handleDraw(GraphType.line)}>线</button>
+        <button className="draw-rect-btn" onClick={() => handleDraw(GraphType.rect)}>长方形</button>
+        <button className="draw-round-btn" onClick={() => handleDraw(GraphType.round)}>圆形</button>
+        <button className="draw-path-btn" onClick={() => handleDraw(GraphType.path)}>路径</button>
         <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
       </div>
       <div className="body">

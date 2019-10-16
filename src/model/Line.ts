@@ -1,11 +1,13 @@
 
 import { PointModel } from './index';
-import { SvgLineProps, SvgBaseProps } from '../const/index';
+import { SvgBaseProps } from '../const/index';
+import { SvgLine } from '../components';
 import { BaseModel } from './BaseModel';
 import { GraphType } from '../const/enum';
 
 export class LineModel extends BaseModel {
     private type = GraphType.line;
+    private component = SvgLine;
     private startPoint: PointModel;
     private endPoint: PointModel;
 
@@ -38,6 +40,7 @@ export class LineModel extends BaseModel {
         const { props: {stroke, fill, strokeWidth } } = super.toData();
         return {
             type: this.type,
+            component: this.component,
             props: {
                 x1, 
                 y1,

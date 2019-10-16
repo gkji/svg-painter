@@ -3,10 +3,12 @@ import { PointModel } from './Point';
 import { SvgRectProps, SvgBaseProps } from '../const/index';
 import { BaseModel } from './BaseModel';
 import { GraphType } from '../const/enum';
+import { SvgRect } from '../components';
 
 
 export class RectModel extends BaseModel {
     private type = GraphType.rect;
+    private component = SvgRect;
     private center: PointModel;
     private width: number;
     private height: number;
@@ -45,6 +47,7 @@ export class RectModel extends BaseModel {
         const { props: { stroke, fill, strokeWidth } } = super.toData();
         return {
             type: this.type,
+            component: this.component,
             props: {
                 x,
                 y,

@@ -3,9 +3,11 @@ import { PointModel } from './index';
 import { SvgPathProps, SvgBaseProps, PathData } from '../const/index';
 import { BaseModel } from './BaseModel';
 import { GraphType } from '../const/enum';
+import { SvgPath } from '../components';
 
 export class PathModel extends BaseModel {
     private type = GraphType.path;
+    private component = SvgPath;
     private startPoint: PointModel;
     private points: PointModel[];
 
@@ -40,6 +42,7 @@ export class PathModel extends BaseModel {
         }
         return {
             type: this.type,
+            component: this.component,
             props: {
                 d,
                 stroke, 
