@@ -1,0 +1,18 @@
+.App {
+  .body {
+    .canvas {
+      border: 1px solid green;
+      width: 400px;
+      height: 300px;
+      margin: 10px auto;
+    }
+  }
+
+  .header {
+      button.active {
+        background-color: cornflowerblue;
+      }
+    }
+}
+
+
