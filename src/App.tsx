@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { Line, Point, Rect, GraphList, BaseGraph } from './model'
+import { LineModel, PointModel, RectModel, ModelList, BaseModel } from './model'
 import { SvgLine, SvgRect, SvgRound, SvgPath } from './components'
 import {GraphType, Drawing, SvgRoundProps, SvgPathProps} from './const';
 
 
 import './App.scss';
-import { SvgLineProps, SvgBaseProps, SvgRectProps } from './const/interface';
+import { SvgLineProps, SvgBaseProps, SvgRectProps, ModelData } from './const/interface';
 
-const graphListModel = new GraphList;
+const modelList = new ModelList;
 
 function App() {
   const [drawing, setDrawing] = useState<Drawing>(Drawing.end);
-  const [graphList, setGraphList] = useState<SvgBaseProps[]>(graphListModel.toData());
+  const [graphList, setGraphList] = useState<ModelData[]>(modelList.toData());
   const [graphType, setGraphType] = useState<GraphType>(GraphType.round);
 
   const handleDrawLine = () => {
@@ -38,8 +38,8 @@ function App() {
     const { clientX: x, clientY: y } = e;
 
     if (drawing === Drawing.start) {
-      graphListModel.startGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.startGraph(graphType, x, y);
+      setGraphList(modelList.toData());
       setDrawing(Drawing.moving)
     }
   }
@@ -48,8 +48,8 @@ function App() {
     const { clientX: x, clientY: y } = e;
 
     if (drawing === Drawing.moving) {
-      graphListModel.endGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.endGraph(graphType, x, y);
+      setGraphList(modelList.toData());
       setDrawing(Drawing.start)
     }
   }
@@ -57,27 +57,25 @@ function App() {
   const handleMouseMoveCanvas = (e: React.MouseEvent) => {
     const { pageX: x, pageY: y } = e;
     if (drawing === Drawing.moving) {
-      graphListModel.endGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.endGraph(graphType, x, y);
+      setGraphList(modelList.toData());
     }
   }
 
   const handleClearAll = () => {
-    graphListModel.clearAll();
-    setGraphList(graphListModel.toData());
+    modelList.clearAll();
+    setGraphList(modelList.toData());
   }
 
-
-
-  const renderGraph = (graph: SvgBaseProps, index: number) => {
-    if (graphType === GraphType.line) {
-      return <SvgLine key={index} lineData={graph as SvgLineProps}/>
-    } else if (graphType === GraphType.rect) {
-      return <SvgRect key={index} rectData={graph as SvgRectProps}/>
-    } else if (graphType === GraphType.round) {
-      return <SvgRound key={index} roundData={graph as SvgRoundProps}/>
-    } else if (graphType === GraphType.path) {
-      return <SvgPath key={index} data={graph as SvgPathProps}/>
+  const renderGraph = (graph: ModelData, index: number) => {
+    if (graph.type === GraphType.line) {
+      return <SvgLine key={index} lineData={graph.props as SvgLineProps}/>
+    } else if (graph.type === GraphType.rect) {
+      return <SvgRect key={index} rectData={graph.props as SvgRectProps}/>
+    } else if (graph.type === GraphType.round) {
+      return <SvgRound key={index} roundData={graph.props as SvgRoundProps}/>
+    } else if (graph.type === GraphType.path) {
+      return <SvgPath key={index} data={graph.props as SvgPathProps}/>
     }
   }
   return (

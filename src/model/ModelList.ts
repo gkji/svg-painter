@@ -1,11 +1,19 @@
-import { BaseGraph } from './BaseGraph';
+import { BaseModel } from './BaseModel';
 import { GraphType } from '../const';
-import {Line, Rect, Point, Round, Path} from '../model';
+import {LineModel, RectModel, PointModel, RoundModel, PathModel} from '.';
 
-export class GraphList {
-    private list: BaseGraph[]= [];
 
-    private add(g: BaseGraph) {
+interface GraphItem {
+    type: GraphType;
+    // component: 
+
+
+
+}
+export class ModelList {
+    private list: BaseModel[]= [];
+
+    private add(g: BaseModel) {
         this.list.push(g);
     }
 
@@ -22,15 +30,15 @@ export class GraphList {
     }
 
     startGraph = (type: GraphType, x: number, y: number) => {
-        let g: BaseGraph | undefined;
+        let g: BaseModel | undefined;
         if (type === GraphType.line) {
-          g = Line.new(x, y);
+          g = LineModel.new(x, y);
         } else if (type === GraphType.rect) {
-          g = Rect.new(x, y);
+          g = RectModel.new(x, y);
         } else if (type === GraphType.round) {
-          g = Round.new(x,y );
+          g = RoundModel.new(x,y );
         } else if (type === GraphType.path) {
-            g = Path.new(x,y );
+            g = PathModel.new(x,y );
           }
         if (g) {
             this.add(g);
@@ -39,24 +47,24 @@ export class GraphList {
 
     endGraph = (type: GraphType, x: number, y: number) => {
         if (type === GraphType.line) {
-            const g = this.currentGraph() as Line;
-            g.update(undefined, new Point(x, y));
+            const g = this.currentGraph() as LineModel;
+            g.update(undefined, new PointModel(x, y));
         } else if (type === GraphType.rect) {
-            const g = this.currentGraph() as Rect;
+            const g = this.currentGraph() as RectModel;
             const [w, h] = g.getSize();
             g.update(undefined, w + 3, h + 3);
         } else if (type === GraphType.round) {
-            const g = this.currentGraph() as Round;
-            const end: Point = new Point(x, y)
+            const g = this.currentGraph() as RoundModel;
+            const end: PointModel = new PointModel(x, y)
             g.update(end);
         } else if (type === GraphType.path) {
-            const g = this.currentGraph() as Path;
-            const end: Point = new Point(x, y)
+            const g = this.currentGraph() as PathModel;
+            const end: PointModel = new PointModel(x, y)
             g.update(undefined, end)
         }
     }
 
     toData () {
-        return this.list.map( g => g.toSvgData())
+        return this.list.map( g => g.toData())
     }
 }

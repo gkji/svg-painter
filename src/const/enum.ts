@@ -6,6 +6,7 @@ export enum Drawing {
   }
 
 export enum GraphType {
+    base = 'base',
     line = 'line',
     rect = 'rect',
     round = 'round',

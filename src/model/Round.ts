@@ -1,15 +1,17 @@
-import {Point} from './Point';
+import {PointModel} from './Point';
 import {SvgRoundProps, SvgBaseProps} from '../const/index';
-import {BaseGraph} from './BaseGraph';
+import {BaseModel} from './BaseModel';
 import {log} from '../common/utils';
+import { GraphType } from '../const/enum';
 
 
-export class Round extends BaseGraph {
+export class RoundModel extends BaseModel {
+    private type = GraphType.round
     private cx: number
     private cy: number
     private r: number
 
-    constructor(center: Point, config: SvgBaseProps = {}) {
+    constructor(center: PointModel, config: SvgBaseProps = {}) {
         super(config)
         const [x, y] = center.toData()
         this.cx = x
@@ -18,11 +20,11 @@ export class Round extends BaseGraph {
     }
 
     static new (x: number, y: number) {
-        const center = new Point(x, y);
-        return new Round(center);
+        const center = new PointModel(x, y);
+        return new RoundModel(center);
     }
 
-    update (end?: Point) {
+    update (end?: PointModel) {
         if(end) {
             const [ex] = end.toData()
             this.r = ex - this.cx
@@ -30,16 +32,19 @@ export class Round extends BaseGraph {
     }
 
 
-    toSvgData(): SvgRoundProps {
+    toData() {
         const {cx, cy, r} = this
-        const {stroke, fill, strokeWidth} = super.toSvgData();
+        const { props: { stroke, fill, strokeWidth } } = super.toData();
         return {
-            cx,
-            cy,
-            r,
-            stroke,
-            fill,
-            strokeWidth,
+            type: this.type,
+            props: {
+                cx,
+                cy,
+                r,
+                stroke,
+                fill,
+                strokeWidth,
+            }
         }
     }
 }

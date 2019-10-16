@@ -1,6 +1,7 @@
 import { SvgBaseProps } from '../const'
+import { GraphType } from '../const/enum';
 
-export class BaseGraph {
+export class BaseModel {
     private stroke: string;
     private fill: string;
     private strokeWidth: string;
@@ -15,12 +16,15 @@ export class BaseGraph {
     //     return new this(args)
     // }
 
-    toSvgData () : SvgBaseProps {
+    toData () {
         const { stroke, fill, strokeWidth } = this;
         return {
-            stroke,
-            fill,
-            strokeWidth
+            type: GraphType.base,
+            props: {
+                stroke,
+                fill,
+                strokeWidth
+            }
         }
     }
 }

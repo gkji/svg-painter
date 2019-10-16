@@ -1,6 +1,6 @@
 
 
-export class Point {
+export class PointModel {
     x: number;
     y: number;
     constructor(x: number, y: number) {
