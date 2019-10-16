@@ -50,7 +50,7 @@ export class GraphList {
         } else if (type === GraphType.round) {
             const g = this.currentGraph() as Round;
             const end: Point = new Point(x, y)
-            g.setEnd(end)
+            g.update(end);
         } else if (type === GraphType.path) {
             const g = this.currentGraph() as Path;
             const end: Point = new Point(x, y)

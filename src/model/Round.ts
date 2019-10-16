@@ -1,18 +1,20 @@
 import {Point} from './Point';
 import {SvgRoundProps, SvgBaseProps} from '../const/index';
 import {BaseGraph} from './BaseGraph';
+import {log} from '../common/utils';
 
 
 export class Round extends BaseGraph {
-    private center: Point;
-    private start: Point;
-    private end: Point;
+    private cx: number
+    private cy: number
+    private r: number
 
-    constructor(start: Point, config: SvgBaseProps = {}) {
+    constructor(center: Point, config: SvgBaseProps = {}) {
         super(config)
-        this.start = start
-        this.center = start;
-        this.end = start;
+        const [x, y] = center.toData()
+        this.cx = x
+        this.cy = y
+        this.r = 0
     }
 
     static new (x: number, y: number) {
@@ -20,26 +22,20 @@ export class Round extends BaseGraph {
         return new Round(center);
     }
 
-    update () {
-        
+    update (end?: Point) {
+        if(end) {
+            const [ex] = end.toData()
+            this.r = ex - this.cx
+        }
     }
 
-    setEnd(p:Point) {
-        this.end = p
-    }
-
-    getStart():Point {
-        return this.start
-    }
 
     toSvgData(): SvgRoundProps {
-        const [x, y] = this.center.toData()
-        const [ex] = this.end.toData()
-        const r: number = (ex - x)
+        const {cx, cy, r} = this
         const {stroke, fill, strokeWidth} = super.toSvgData();
         return {
-            cx: x,
-            cy: y,
+            cx,
+            cy,
             r,
             stroke,
             fill,
