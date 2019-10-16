@@ -7,8 +7,6 @@ import {GraphType, Drawing, SvgRoundProps, SvgPathProps} from './const';
 import './App.scss';
 import { SvgLineProps, SvgBaseProps, SvgRectProps } from './const/interface';
 
-const log = console.log
-
 const graphListModel = new GraphList;
 
 function App() {
@@ -59,7 +57,6 @@ function App() {
   const handleMouseMoveCanvas = (e: React.MouseEvent) => {
     const { pageX: x, pageY: y } = e;
     if (drawing === Drawing.moving) {
-      log('moving')
       graphListModel.endGraph(graphType, x, y);
       setGraphList(graphListModel.toData());
     }
@@ -78,14 +75,20 @@ function App() {
     } else if (graphType === GraphType.rect) {
       return <SvgRect key={index} rectData={graph as SvgRectProps}/>
     } else if (graphType === GraphType.round) {
-      return <SvgRound key={`${index}`} roundData={graph as SvgRoundProps}/>
+      return <SvgRound key={index} roundData={graph as SvgRoundProps}/>
     } else if (graphType === GraphType.path) {
       return <SvgPath key={index} data={graph as SvgPathProps}/>
     }
   }
   return (
     <div className="App">
-
+        <div className="header">
+        <button className="draw-line-btn" onClick={handleDrawLine}>线</button>
+        <button className="draw-rect-btn" onClick={handleDrawRect}>长方形</button>
+        <button className="draw-round-btn" onClick={handleDrawRound}>圆形</button>
+        <button className="draw-path-btn" onClick={handleDrawPath}>路径</button>
+        <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
+      </div>
       <div className="body">
         <svg className="canvas"
           onMouseDown={handleMouseDownCanvas}
@@ -98,13 +101,6 @@ function App() {
             })
           }
         </svg>
-      </div>
-      <div className="header">
-        <button className="draw-line-btn" onClick={handleDrawLine}>线</button>
-        <button className="draw-rect-btn" onClick={handleDrawRect}>长方形</button>
-        <button className="draw-round-btn" onClick={handleDrawRound}>圆形</button>
-        <button className="draw-path-btn" onClick={handleDrawPath}>路径</button>
-        <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
       </div>
     </div>
   );

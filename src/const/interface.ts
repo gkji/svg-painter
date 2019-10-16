@@ -30,7 +30,7 @@ export interface Point {
 
 export interface PathData {
     moveTo: Point,
-    lineTo: Point,
+    lineToList: Point[],
 }
 
 export interface SvgPathProps extends SvgBaseProps {

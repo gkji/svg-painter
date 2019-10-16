@@ -19,7 +19,6 @@ export class Path extends BaseGraph {
     }
 
     update (start?: Point, point?: Point, config?: SvgBaseProps) {
-        console.log('udpate')
         if (start) {
             this.startPoint = start;
         }
@@ -35,7 +34,7 @@ export class Path extends BaseGraph {
         const { stroke, fill, strokeWidth } = super.toSvgData();
         const d: PathData = {
             moveTo: this.startPoint,
-            lineTo: this.points[this.points.length - 1],
+            lineToList: this.points,
         }
         return {
             d,

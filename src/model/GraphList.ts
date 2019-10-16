@@ -2,8 +2,6 @@ import { BaseGraph } from './BaseGraph';
 import { GraphType } from '../const';
 import {Line, Rect, Point, Round, Path} from '../model';
 
-const log = console.log;
-
 export class GraphList {
     private list: BaseGraph[]= [];
 
