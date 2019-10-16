@@ -1,3 +1,4 @@
+import { GraphType } from './enum';
 export interface SvgBaseProps {
     stroke?: string;
     fill?: string;
@@ -35,4 +36,10 @@ export interface PathData {
 
 export interface SvgPathProps extends SvgBaseProps {
     d: PathData,
+}
+
+export interface ModelData {
+    type: GraphType,
+    component: any,
+    props: SvgBaseProps,
 }

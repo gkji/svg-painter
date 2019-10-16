@@ -1280,10 +1280,10 @@
   resolved "http://npm-registry.qunhequnhe.com/@types/q/download/@types/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha1-aQoUdbhPKohP0HzXl8APXzE1bqg=
 
-"@types/react@^16.9.3":
-  version "16.9.3"
-  resolved "http://npm-registry.qunhequnhe.com/@types/react/download/@types/react-16.9.3.tgz#6d13251e441a3e67fb60d719d1fc8785b984a2ec"
-  integrity sha1-bRMlHkQaPmf7YNcZ0fyHhbmEouw=
+"@types/react@^16.9.7":
+  version "16.9.7"
+  resolved "http://npm-registry.qunhequnhe.com/@types/react/download/@types/react-16.9.7.tgz#3b50cb38285a79fd325cf185e0d623e3e0dd2893"
+  integrity sha1-O1DLOChaef0yXPGF4NYj4+DdKJM=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"

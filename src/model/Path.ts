@@ -1,24 +1,28 @@
 
-import { Point } from './index';
+import { PointModel } from './index';
 import { SvgPathProps, SvgBaseProps, PathData } from '../const/index';
-import { BaseGraph } from './BaseGraph';
+import { BaseModel } from './BaseModel';
+import { GraphType } from '../const/enum';
+import { SvgPath } from '../components';
 
-export class Path extends BaseGraph {
-    private startPoint: Point;
-    private points: Point[];
+export class PathModel extends BaseModel {
+    private type = GraphType.path;
+    private component = SvgPath;
+    private startPoint: PointModel;
+    private points: PointModel[];
 
-    constructor(start: Point, point: Point, config: SvgBaseProps ={}) {
+    constructor(start: PointModel, point: PointModel, config: SvgBaseProps ={}) {
         super(config);
         this.startPoint = start;
         this.points = [point];
     }
 
     static new (x: number, y: number) {
-        const start = new Point(x, y);
-        return new Path(start, start);
+        const start = new PointModel(x, y);
+        return new PathModel(start, start);
     }
 
-    update (start?: Point, point?: Point, config?: SvgBaseProps) {
+    update (start?: PointModel, point?: PointModel, config?: SvgBaseProps) {
         if (start) {
             this.startPoint = start;
         }
@@ -30,17 +34,21 @@ export class Path extends BaseGraph {
         }
     }
 
-    toSvgData (): SvgPathProps {
-        const { stroke, fill, strokeWidth } = super.toSvgData();
+    toData () {
+        const { props: { stroke, fill, strokeWidth } } = super.toData();
         const d: PathData = {
             moveTo: this.startPoint,
             lineToList: this.points,
         }
         return {
-            d,
-            stroke, 
-            fill, 
-            strokeWidth
+            type: this.type,
+            component: this.component,
+            props: {
+                d,
+                stroke, 
+                fill, 
+                strokeWidth
+            }
         }
     }
 }

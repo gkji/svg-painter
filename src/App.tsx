@@ -1,45 +1,38 @@
 import React, { useState } from 'react';
-import { Line, Point, Rect, GraphList, BaseGraph } from './model'
+import { ModelList } from './model'
 import { SvgLine, SvgRect, SvgRound, SvgPath } from './components'
-import {GraphType, Drawing, SvgRoundProps, SvgPathProps} from './const';
+import {GraphType, Drawing, MapOf} from './const';
 
 
 import './App.scss';
-import { SvgLineProps, SvgBaseProps, SvgRectProps } from './const/interface';
+import { ModelData } from './const/interface';
 
-const graphListModel = new GraphList;
+
+const GraphComponent: MapOf<any> = {
+  [GraphType.line]: SvgLine,
+  [GraphType.rect]: SvgRect,
+  [GraphType.round]: SvgRound,
+  [GraphType.path]: SvgPath,
+}
+
+const modelList = new ModelList;
 
 function App() {
   const [drawing, setDrawing] = useState<Drawing>(Drawing.end);
-  const [graphList, setGraphList] = useState<SvgBaseProps[]>(graphListModel.toData());
+  const [graphList, setGraphList] = useState<ModelData[]>(modelList.toData());
   const [graphType, setGraphType] = useState<GraphType>(GraphType.round);
 
-  const handleDrawLine = () => {
+  const handleDraw = (type: GraphType) => {
     setDrawing(Drawing.start);
-    setGraphType(GraphType.line)
-  }
-
-  const handleDrawRect = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.rect)
-  }
-
-  const handleDrawRound = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.round)
-  }
-
-  const handleDrawPath = () => {
-    setDrawing(Drawing.start);
-    setGraphType(GraphType.path)
+    setGraphType(type)
   }
 
   const handleMouseDownCanvas = (e: React.MouseEvent) => {
     const { clientX: x, clientY: y } = e;
 
     if (drawing === Drawing.start) {
-      graphListModel.startGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.startGraph(graphType, x, y);
+      setGraphList(modelList.toData());
       setDrawing(Drawing.moving)
     }
   }
@@ -48,8 +41,8 @@ function App() {
     const { clientX: x, clientY: y } = e;
 
     if (drawing === Drawing.moving) {
-      graphListModel.endGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.endGraph(graphType, x, y);
+      setGraphList(modelList.toData());
       setDrawing(Drawing.start)
     }
   }
@@ -57,36 +50,32 @@ function App() {
   const handleMouseMoveCanvas = (e: React.MouseEvent) => {
     const { pageX: x, pageY: y } = e;
     if (drawing === Drawing.moving) {
-      graphListModel.endGraph(graphType, x, y);
-      setGraphList(graphListModel.toData());
+      modelList.endGraph(graphType, x, y);
+      setGraphList(modelList.toData());
     }
   }
 
   const handleClearAll = () => {
-    graphListModel.clearAll();
-    setGraphList(graphListModel.toData());
+    modelList.clearAll();
+    setGraphList(modelList.toData());
   }
 
-
-
-  const renderGraph = (graph: SvgBaseProps, index: number) => {
-    if (graphType === GraphType.line) {
-      return <SvgLine key={index} lineData={graph as SvgLineProps}/>
-    } else if (graphType === GraphType.rect) {
-      return <SvgRect key={index} rectData={graph as SvgRectProps}/>
-    } else if (graphType === GraphType.round) {
-      return <SvgRound key={index} roundData={graph as SvgRoundProps}/>
-    } else if (graphType === GraphType.path) {
-      return <SvgPath key={index} data={graph as SvgPathProps}/>
-    }
+  const renderGraph = (graph: ModelData, index: number) => {
+    return <React.Fragment key={index}>
+        {
+          React.createElement(graph.component, {
+          key: index, 
+          data: graph.props
+      })}
+      </React.Fragment>
   }
   return (
     <div className="App">
         <div className="header">
-        <button className="draw-line-btn" onClick={handleDrawLine}>线</button>
-        <button className="draw-rect-btn" onClick={handleDrawRect}>长方形</button>
-        <button className="draw-round-btn" onClick={handleDrawRound}>圆形</button>
-        <button className="draw-path-btn" onClick={handleDrawPath}>路径</button>
+        <button className="draw-line-btn" onClick={() => handleDraw(GraphType.line)}>线</button>
+        <button className="draw-rect-btn" onClick={() => handleDraw(GraphType.rect)}>长方形</button>
+        <button className="draw-round-btn" onClick={() => handleDraw(GraphType.round)}>圆形</button>
+        <button className="draw-path-btn" onClick={() => handleDraw(GraphType.path)}>路径</button>
         <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
       </div>
       <div className="body">

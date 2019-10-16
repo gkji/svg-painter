@@ -1,24 +1,28 @@
 
-import { Point } from './index';
-import { SvgLineProps, SvgBaseProps } from '../const/index';
-import { BaseGraph } from './BaseGraph';
+import { PointModel } from './index';
+import { SvgBaseProps } from '../const/index';
+import { SvgLine } from '../components';
+import { BaseModel } from './BaseModel';
+import { GraphType } from '../const/enum';
 
-export class Line extends BaseGraph {
-    private startPoint: Point;
-    private endPoint: Point;
+export class LineModel extends BaseModel {
+    private type = GraphType.line;
+    private component = SvgLine;
+    private startPoint: PointModel;
+    private endPoint: PointModel;
 
-    constructor(start: Point, end: Point, config: SvgBaseProps ={}) {
+    constructor(start: PointModel, end: PointModel, config: SvgBaseProps ={}) {
         super(config);
         this.startPoint = start;
         this.endPoint = end;
     }
 
     static new (x: number, y: number) {
-        const start = new Point(x, y);
-        return new Line(start, start);
+        const start = new PointModel(x, y);
+        return new LineModel(start, start);
     }
 
-    update (start?: Point, end?: Point, config?: SvgBaseProps) {
+    update (start?: PointModel, end?: PointModel, config?: SvgBaseProps) {
         if (start) {
             this.startPoint = start;
         }
@@ -30,18 +34,22 @@ export class Line extends BaseGraph {
         }
     }
 
-    toSvgData (): SvgLineProps {
+    toData () {
         const [x1, y1] = this.startPoint.toData()
         const [x2, y2] = this.endPoint.toData();
-        const { stroke, fill, strokeWidth } = super.toSvgData();
+        const { props: {stroke, fill, strokeWidth } } = super.toData();
         return {
-            x1, 
-            y1,
-            x2,
-            y2,
-            stroke,
-            fill,
-            strokeWidth,
+            type: this.type,
+            component: this.component,
+            props: {
+                x1, 
+                y1,
+                x2,
+                y2,
+                stroke,
+                fill,
+                strokeWidth,
+            }
         }
     }
 }

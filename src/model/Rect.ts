@@ -1,15 +1,19 @@
 
-import { Point } from './Point';
+import { PointModel } from './Point';
 import { SvgRectProps, SvgBaseProps } from '../const/index';
-import { BaseGraph } from './BaseGraph';
+import { BaseModel } from './BaseModel';
+import { GraphType } from '../const/enum';
+import { SvgRect } from '../components';
 
 
-export class Rect extends BaseGraph {
-    private center: Point;
+export class RectModel extends BaseModel {
+    private type = GraphType.rect;
+    private component = SvgRect;
+    private center: PointModel;
     private width: number;
     private height: number;
 
-    constructor(center: Point, width: number, height: number, config: SvgBaseProps = {}) {
+    constructor(center: PointModel, width: number, height: number, config: SvgBaseProps = {}) {
         super(config)
         this.center = center;
         this.width = width;
@@ -17,11 +21,11 @@ export class Rect extends BaseGraph {
     }
 
     static new (x: number, y: number) {
-        const center = new Point(x, y);
-        return new Rect(center, 0, 0)
+        const center = new PointModel(x, y);
+        return new RectModel(center, 0, 0)
     }
 
-    update (center?: Point, width?: number, height?: number, config?: SvgBaseProps) {
+    update (center?: PointModel, width?: number, height?: number, config?: SvgBaseProps) {
         if (center) {
             this.center = center;
         }
@@ -37,18 +41,22 @@ export class Rect extends BaseGraph {
         return [this.width, this.height]
     }
 
-    toSvgData (): SvgRectProps {
+    toData () {
         const [x, y] = this.center.toData()
         const { width, height } = this;
-        const { stroke, fill, strokeWidth } = super.toSvgData();
+        const { props: { stroke, fill, strokeWidth } } = super.toData();
         return {
-            x,
-            y,
-            width,
-            height,
-            stroke,
-            fill,
-            strokeWidth,
+            type: this.type,
+            component: this.component,
+            props: {
+                x,
+                y,
+                width,
+                height,
+                stroke,
+                fill,
+                strokeWidth,
+            }
         }
     }
 }
