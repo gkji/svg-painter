@@ -73,7 +73,7 @@ function App() {
     } else if (graphType === GraphType.rect) {
       return <SvgRect key={`${index}`} rectData={graph as SvgRectProps}/>
     } else if (graphType === GraphType.round) {
-      return <SvgRound key={`${index}`} data={graph as SvgRoundProps}/>
+      return <SvgRound key={`${index}`} roundData={graph as SvgRoundProps}/>
     }
   }
   return (

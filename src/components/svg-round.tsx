@@ -3,14 +3,15 @@ import { SvgRoundProps } from '../const/index';
 import {log} from '../common/utils';
 
 interface Props {
-    data: SvgRoundProps
+    roundData: SvgRoundProps
 }
 
 export class SvgRound extends React.PureComponent<Props> {
     render() {
-        const { data } = this.props;
+        const { roundData } = this.props;
+        log('debug roundData', roundData)
         return (
-            <circle {...data} />
+            <circle {...roundData} />
         );
     }
 }

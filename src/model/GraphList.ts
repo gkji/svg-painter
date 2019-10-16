@@ -30,7 +30,7 @@ export class GraphList {
         } else if (type === GraphType.rect) {
           g = Rect.new(x, y);
         } else if (type === GraphType.round) {
-          g = Round.new(x,y );
+          g = Round.new(x, y);
         }
         if (g) {
             this.add(g);
@@ -47,8 +47,7 @@ export class GraphList {
             g.update(undefined, w + 3, h + 3);
         } else if (type === GraphType.round) {
             const g = this.currentGraph() as Round;
-            const end: Point = new Point(x, y)
-            g.setEnd(end)
+            g.update(new Point(x, y))
         }
     }
 
