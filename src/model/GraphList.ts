@@ -1,8 +1,6 @@
 import { BaseGraph } from './BaseGraph';
 import { GraphType } from '../const';
-import {Line, Rect, Point, Round} from '../model';
-
-const log = console.log;
+import {Line, Rect, Point, Round, Path} from '../model';
 
 export class GraphList {
     private list: BaseGraph[]= [];
@@ -30,8 +28,10 @@ export class GraphList {
         } else if (type === GraphType.rect) {
           g = Rect.new(x, y);
         } else if (type === GraphType.round) {
-          g = Round.new(x, y);
-        }
+          g = Round.new(x,y );
+        } else if (type === GraphType.path) {
+            g = Path.new(x,y );
+          }
         if (g) {
             this.add(g);
         }
@@ -47,7 +47,12 @@ export class GraphList {
             g.update(undefined, w + 3, h + 3);
         } else if (type === GraphType.round) {
             const g = this.currentGraph() as Round;
-            g.update(new Point(x, y))
+            const end: Point = new Point(x, y)
+            g.update(end);
+        } else if (type === GraphType.path) {
+            const g = this.currentGraph() as Path;
+            const end: Point = new Point(x, y)
+            g.update(undefined, end)
         }
     }
 

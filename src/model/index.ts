@@ -4,3 +4,4 @@ export * from './Rect';
 export * from './BaseGraph';
 export * from './Round';
 export * from './GraphList';
+export * from './Path';

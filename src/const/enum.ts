@@ -8,5 +8,6 @@ export enum Drawing {
 export enum GraphType {
     line = 'line',
     rect = 'rect',
-    round = 'round'
+    round = 'round',
+    path = 'path',
 }
