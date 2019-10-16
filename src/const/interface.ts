@@ -27,3 +27,12 @@ export interface Point {
     x: number,
     y: number,
 }
+
+export interface PathData {
+    moveTo: Point,
+    lineTo: Point,
+}
+
+export interface SvgPathProps extends SvgBaseProps {
+    d: PathData,
+}

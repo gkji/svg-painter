@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Line, Point, Rect, GraphList, BaseGraph } from './model'
-import { SvgLine, SvgRect, SvgRound } from './components'
-import {GraphType, Drawing, SvgRoundProps,} from './const';
+import { SvgLine, SvgRect, SvgRound, SvgPath } from './components'
+import {GraphType, Drawing, SvgRoundProps, SvgPathProps} from './const';
 
 
 import './App.scss';
@@ -29,6 +29,11 @@ function App() {
   const handleDrawRound = () => {
     setDrawing(Drawing.start);
     setGraphType(GraphType.round)
+  }
+
+  const handleDrawPath = () => {
+    setDrawing(Drawing.start);
+    setGraphType(GraphType.path)
   }
 
   const handleMouseDownCanvas = (e: React.MouseEvent) => {
@@ -69,11 +74,13 @@ function App() {
 
   const renderGraph = (graph: SvgBaseProps, index: number) => {
     if (graphType === GraphType.line) {
-      return <SvgLine key={`${index}`} lineData={graph as SvgLineProps}/>
+      return <SvgLine key={index} lineData={graph as SvgLineProps}/>
     } else if (graphType === GraphType.rect) {
-      return <SvgRect key={`${index}`} rectData={graph as SvgRectProps}/>
+      return <SvgRect key={index} rectData={graph as SvgRectProps}/>
     } else if (graphType === GraphType.round) {
-      return <SvgRound key={`${index}`} data={graph as SvgRoundProps}/>
+      return <SvgRound key={index} data={graph as SvgRoundProps}/>
+    } else if (graphType === GraphType.path) {
+      return <SvgPath key={index} data={graph as SvgPathProps}/>
     }
   }
   return (
@@ -96,6 +103,7 @@ function App() {
         <button className="draw-line-btn" onClick={handleDrawLine}>线</button>
         <button className="draw-rect-btn" onClick={handleDrawRect}>长方形</button>
         <button className="draw-round-btn" onClick={handleDrawRound}>圆形</button>
+        <button className="draw-path-btn" onClick={handleDrawPath}>路径</button>
         <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
       </div>
     </div>
