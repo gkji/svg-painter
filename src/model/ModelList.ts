@@ -1,6 +1,7 @@
 import { GraphType } from '../const';
 import {LineModel, RectModel, PointModel, RoundModel, PathModel, BaseModel} from './index';
 import { ModelData } from '../const/interface';
+import {EllipseModel} from "./Ellipse";
 
 interface GraphItem {
     type: GraphType;
@@ -37,6 +38,8 @@ export class ModelList {
           g = RoundModel.new(x,y );
         } else if (type === GraphType.path) {
             g = PathModel.new(x,y );
+        } else if (type === GraphType.ellipse) {
+            g = EllipseModel.new(x,y );
         }
         if (g) {
             this.add(g);
@@ -55,6 +58,10 @@ export class ModelList {
             const g = this.currentGraph() as RoundModel;
             const end: PointModel = new PointModel(x, y)
             g.update(end);
+        } else if (type === GraphType.ellipse) {
+            const g = this.currentGraph() as EllipseModel;
+            const end: PointModel = new PointModel(x, y)
+            g.update(end)
         } else if (type === GraphType.path) {
             const g = this.currentGraph() as PathModel;
             const end: PointModel = new PointModel(x, y)

@@ -24,6 +24,13 @@ export interface SvgRoundProps extends SvgBaseProps {
     r: number,
 }
 
+export interface SvgEllipseProps extends SvgBaseProps {
+    cx: number,
+    cy: number,
+    rx: number,
+    ry: number,
+}
+
 export interface Point {
     x: number,
     y: number,

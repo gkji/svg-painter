@@ -1,44 +1,44 @@
-import {PointModel} from './Point';
-import {SvgBaseProps} from '../const/index';
-import {BaseModel} from './BaseModel';
+import { PointModel } from './Point';
+import {SvgBaseProps, SvgEllipseProps} from '../const/index';
+import { BaseModel } from './BaseModel';
 import { GraphType } from '../const/enum';
-import { SvgRound } from '../components'
-import {log, abs} from "../common/utils";
+import { SvgEllipse } from '../components'
+import {abs} from "../common/utils";
 
 
-export class RoundModel extends BaseModel {
-    private type = GraphType.round
-    private component = SvgRound;
+export class EllipseModel extends BaseModel {
+    private type = GraphType.ellipse
+    private component = SvgEllipse;
     private cx: number
     private cy: number
-    private r: number
+    private rx: number
+    private ry: number
 
     constructor(center: PointModel, config: SvgBaseProps = {}) {
         super(config)
         const [x, y] = center.toData()
         this.cx = x
         this.cy = y
-        this.r = 0
+        this.rx = 0
+        this.ry = 0
     }
 
     static new (x: number, y: number) {
         const center = new PointModel(x, y);
-        return new RoundModel(center);
+        return new this(center);
     }
 
     update (end?: PointModel) {
         if(end) {
             const [ex, ey] = end.toData()
-            const rx = ex - this.cx
-            const ry = ey - this.cy
-            const r = Math.max(abs(rx), abs(ry))
-            this.r = abs(r)
+            this.rx = abs(ex - this.cx)
+            this.ry = abs(ey - this.cy)
         }
     }
 
 
     toData() {
-        const {cx, cy, r} = this
+        const {cx, cy, rx, ry} = this
         const { props: { stroke, fill, strokeWidth } } = super.toData();
         return {
             type: this.type,
@@ -46,7 +46,8 @@ export class RoundModel extends BaseModel {
             props: {
                 cx,
                 cy,
-                r,
+                rx,
+                ry,
                 stroke,
                 fill,
                 strokeWidth,
