@@ -11,4 +11,5 @@ export enum GraphType {
     rect = 'rect',
     round = 'round',
     path = 'path',
+    ellipse = 'ellipse',
 }
