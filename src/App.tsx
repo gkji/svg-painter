@@ -71,25 +71,39 @@ function App() {
   }
   return (
     <div className="App">
-        <div className="header">
-        <button className="draw-line-btn" onClick={() => handleDraw(GraphType.line)}>线</button>
-        <button className="draw-rect-btn" onClick={() => handleDraw(GraphType.rect)}>长方形</button>
-        <button className="draw-round-btn" onClick={() => handleDraw(GraphType.round)}>圆形</button>
-        <button className="draw-path-btn" onClick={() => handleDraw(GraphType.path)}>路径</button>
-        <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
+      <div className="header">
+        
       </div>
       <div className="body">
-        <svg className="canvas"
-          onMouseDown={handleMouseDownCanvas}
-          onMouseUp={handleMouseUpCanvas}
-          onMouseMove={handleMouseMoveCanvas}
-        >
-          {
-            graphList.map((graph, index) => {
-              return renderGraph(graph, index);
-            })
-          }
-        </svg>
+        <div className="main">
+          <div className="left-side">
+            <button className="draw-line-btn" onClick={() => handleDraw(GraphType.line)}></button>
+            <button className="draw-rect-btn" onClick={() => handleDraw(GraphType.rect)}>长方形</button>
+            <button className="draw-round-btn" onClick={() => handleDraw(GraphType.round)}>圆形</button>
+            <button className="draw-path-btn" onClick={() => handleDraw(GraphType.path)}>路径</button>
+            <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
+          </div>
+          <div className="right-side">
+            <svg className="canvas"
+              onMouseDown={handleMouseDownCanvas}
+              onMouseUp={handleMouseUpCanvas}
+              onMouseMove={handleMouseMoveCanvas}
+            >
+              {
+                graphList.map((graph, index) => {
+                  return renderGraph(graph, index);
+                })
+              }
+            </svg>
+          </div>
+
+        </div>
+        <div className="tool-area">
+
+        </div>
+      </div>
+      <div className="footer">
+
       </div>
     </div>
   );

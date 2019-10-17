@@ -2,13 +2,56 @@ html, body, #root, .App, .body {
   height: 100%;
 }
 .App {
+  .header {
+    height: 22px;
+    background: #c0c0c0;
+    border-top: 1px solid #c0c0c0;
+    border-left: 1px solid #c0c0c0;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    box-shadow: 1px 1px 0 white inset, -1px -1px 0 #707070 inset;
+  }
   .body {
-    .canvas {
-      border: 1px solid green;
+    display: flex;
+    width: 100%;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACAQMAAABIeJ9nAAAABlBMVEW9vb3///8EwsWUAAAADElEQVQI12NoYHAAAAHEAMFJRSpJAAAAAElFTkSuQmCC) repeat;
+    .main {
+      display: flex;
       width: 100%;
-      height: 90%;
-      margin: 10px auto;
+      flex-wrap: nowrap;
+      .left-side {
+        height: 100%;
+        flex: 56px 0 0;
+        background: #c0c0c0;
+        border-top: 1px solid #c0c0c0;
+        border-left: 1px solid #c0c0c0;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        box-shadow: 1px 1px 0 white inset, -1px -1px 0 #707070 inset;
+
+        .draw-line-btn {
+          display: block;
+          width: 24px;
+          height: 24px;
+          background-image: url(https://jspaint.app/images/toolbar-icons.png);
+          background-position: 0px -75px;
+        }
+  
+      }
+  
+      .right-side {
+        flex: auto 1 1;
+        background: #7b7b7b;
+        .canvas {
+          width: 700px;
+          height: 500px;
+          background: #fff;
+          cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhElEQVR42u3WwQ6AIAwDUPj/j1ZInOkR24KBbDc52Ndx0Fp+npqABCTgGMDV5n1pm6WAHo6Z3TKKkAERDgso8TyC2BuAqw/Al3Ab4AnE8/kAdfV2AF7FdICrvQ3AtqcAzvYSABrT7WUAnFHhFoASLgPUcAngCKcAgLB8ys/5I0pAArYF3BnMjyGREgE3AAAAAElFTkSuQmCC) 13 23, crosshair;
+        }
+      }
     }
+
+
   }
 
   .header {
