@@ -3,7 +3,7 @@ export enum Drawing {
     start = 'start',
     moving = 'moving',
     end = 'end'
-  }
+}
 
 export enum GraphType {
     base = 'base',
@@ -12,4 +12,11 @@ export enum GraphType {
     round = 'round',
     path = 'path',
     ellipse = 'ellipse',
+    triangle = 'triangle',
+    polygon = 'polygon',
+}
+
+export enum PenStatus {
+    down,
+    up ,
 }

@@ -1,4 +1,4 @@
-import { GraphType } from './enum';
+import {GraphType, PenStatus} from './enum';
 export interface SvgBaseProps {
     stroke?: string;
     fill?: string;
@@ -22,6 +22,13 @@ export interface SvgRoundProps extends SvgBaseProps {
     cx: number,
     cy: number,
     r: number,
+}
+
+export interface SvgPolygonProps extends SvgBaseProps {
+    points: string
+}
+
+export interface SvgTriangleProps extends SvgPolygonProps {
 }
 
 export interface SvgEllipseProps extends SvgBaseProps {
@@ -49,4 +56,11 @@ export interface ModelData {
     type: GraphType,
     component: any,
     props: SvgBaseProps,
+}
+
+export interface PenData {
+    x: number
+    y: number
+    status: PenStatus
+    svg: SvgBaseProps
 }
