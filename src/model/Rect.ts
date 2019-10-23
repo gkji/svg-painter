@@ -1,13 +1,14 @@
-
-import { PointModel } from './Point';
-import { SvgRectProps, SvgBaseProps } from '../const/index';
-import { BaseModel } from './BaseModel';
-import { GraphType } from '../const/enum';
-import { SvgRect } from '../components';
+import {PointModel} from './Point';
+import {SvgRectProps, SvgBaseProps} from '../const/index';
+import {BaseModel} from './BaseModel';
+import {GraphType} from '../const/enum';
+import {SvgRect} from '../components';
+import {Pen} from "../pen";
 
 
 export class RectModel extends BaseModel {
     private type = GraphType.rect;
+    static type = GraphType.rect;
     private component = SvgRect;
     private center: PointModel;
     private width: number;
@@ -20,12 +21,23 @@ export class RectModel extends BaseModel {
         this.height = height;
     }
 
-    static new (x: number, y: number) {
+    static modelWithPen(pen: Pen) {
+        const {x, y} = pen.toData()
         const center = new PointModel(x, y);
         return new RectModel(center, 0, 0)
     }
 
-    update (center?: PointModel, width?: number, height?: number, config?: SvgBaseProps) {
+    updateWithPen(pen: Pen) {
+        const [w, h] = this.getSize();
+        this.update(undefined, w + 3, h + 3);
+    }
+
+    static new(x: number, y: number) {
+        const center = new PointModel(x, y);
+        return new RectModel(center, 0, 0)
+    }
+
+    update(center?: PointModel, width?: number, height?: number, config?: SvgBaseProps) {
         if (center) {
             this.center = center;
         }
@@ -37,14 +49,14 @@ export class RectModel extends BaseModel {
         }
     }
 
-    getSize () {
+    getSize() {
         return [this.width, this.height]
     }
 
-    toData () {
+    toData() {
         const [x, y] = this.center.toData()
-        const { width, height } = this;
-        const { props: { stroke, fill, strokeWidth } } = super.toData();
+        const {width, height} = this;
+        const {props: {stroke, fill, strokeWidth}} = super.toData();
         return {
             type: this.type,
             component: this.component,

@@ -4,4 +4,6 @@ export * from './Rect';
 export * from './BaseModel';
 export * from './Round';
 export * from './ModelList';
+export * from './Ellipse';
 export * from './Path';
+export * from './Polygon';

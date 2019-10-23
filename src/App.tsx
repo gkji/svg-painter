@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { ModelList } from './model'
-import {SvgLine, SvgRect, SvgRound, SvgPath, SvgEllipse} from './components'
-import {GraphType, Drawing, MapOf} from './const';
-
-
+import React, {useState} from 'react';
+import {ModelList} from './model'
+import {SvgLine, SvgPath, SvgRect, SvgRound} from './components'
+import {Drawing, GraphType, MapOf, PenStatus} from './const';
+import pen from './pen'
 import './App.scss';
-import { ModelData } from './const/interface';
-import {log} from "./common/utils";
+import {ModelData} from './const/interface';
 
 
 const GraphComponent: MapOf<any> = {
@@ -16,7 +14,7 @@ const GraphComponent: MapOf<any> = {
   [GraphType.path]: SvgPath,
 }
 
-const modelList = new ModelList;
+const modelList = new ModelList(pen);
 
 function App() {
   const [drawing, setDrawing] = useState<Drawing>(Drawing.end);
@@ -25,6 +23,7 @@ function App() {
 
   const handleDraw = (type: GraphType) => {
     setDrawing(Drawing.start);
+    pen.setPenType(type)
     setGraphType(type)
   }
 
@@ -33,6 +32,7 @@ function App() {
     const { offsetX: x, offsetY: y } = event
 
     if (drawing === Drawing.start) {
+      pen.updatePen(x, y, PenStatus.down)
       modelList.startGraph(graphType, x, y);
       setGraphList(modelList.toData());
       setDrawing(Drawing.moving)
@@ -44,6 +44,7 @@ function App() {
     const { offsetX: x, offsetY: y } = event
 
     if (drawing === Drawing.moving) {
+      pen.updatePen(x, y, PenStatus.up)
       modelList.endGraph(graphType, x, y);
       setGraphList(modelList.toData());
       setDrawing(Drawing.start)
@@ -55,8 +56,10 @@ function App() {
     const { offsetX: x, offsetY: y } = event
 
     if (drawing === Drawing.moving) {
+      pen.updatePen(x, y)
       modelList.endGraph(graphType, x, y);
       setGraphList(modelList.toData());
+
     }
   }
 
@@ -82,11 +85,12 @@ function App() {
       <div className="body">
         <div className="main">
           <div className="left-side">
-            <button className="draw-line-btn" onClick={() => handleDraw(GraphType.line)}></button>
+            <button className="draw-line-btn" onClick={() => handleDraw(GraphType.path)}></button>
             <button className="draw-rect-btn" onClick={() => handleDraw(GraphType.rect)}>长方形</button>
             <button className="draw-round-btn" onClick={() => handleDraw(GraphType.round)}>圆形</button>
             <button className="draw-round-btn" onClick={() => handleDraw(GraphType.ellipse)}>椭圆</button>
-            <button className="draw-path-btn" onClick={() => handleDraw(GraphType.path)}>路径</button>
+            <button className="draw-round-btn" onClick={() => handleDraw(GraphType.polygon)}>三角形</button>
+            <button className="draw-path-btn" onClick={() => handleDraw(GraphType.line)}>路径</button>
             <button className="clear-all-btn" onClick={handleClearAll}>清空</button>
           </div>
           <div className="right-side">
